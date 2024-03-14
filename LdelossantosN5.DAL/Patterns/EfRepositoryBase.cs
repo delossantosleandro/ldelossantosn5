@@ -24,7 +24,7 @@ namespace LdelossantosN5.DAL.Patterns
         public async Task<TEntity> FindAsync(int id)
         {
             return await this.DbSet.FindAsync(id)
-                ?? throw new ArgumentException("Id doesn't exist");
+                ?? throw new NotFoundException(typeof(TEntity), id);
         }
         public void Remove(TEntity entity)
         {

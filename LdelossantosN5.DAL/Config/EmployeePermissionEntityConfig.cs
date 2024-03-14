@@ -35,18 +35,22 @@ namespace LdelossantosN5.DAL.Config
                 .HasForeignKey(x => x.PermissionTypeId)
                 .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict)
                 .IsRequired();
+
+            //We can't have more than one employee permissionType for the employee
+            builder
+                .HasAlternateKey(x => new { x.EmployeeId, x.PermissionTypeId });
         }
 
         public static EmployeePermissionEntity[] SeedData => [
             //employee 1
-            new EmployeePermissionEntity() { Id = 1, EmployeeId = 1, PermissionTypeId = 1, RequestStatus = PermissionRequestStatus.permissionRequested, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
-            new EmployeePermissionEntity() { Id = 2, EmployeeId = 1, PermissionTypeId = 2, RequestStatus = PermissionRequestStatus.permissionDenied, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
-            new EmployeePermissionEntity() { Id = 3, EmployeeId = 1, PermissionTypeId = 3, RequestStatus = PermissionRequestStatus.permissionGranted, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
+            new EmployeePermissionEntity() { Id = 1, EmployeeId = 1, PermissionTypeId = 1, RequestStatus = PermissionStatus.permissionRequested, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
+            new EmployeePermissionEntity() { Id = 2, EmployeeId = 1, PermissionTypeId = 2, RequestStatus = PermissionStatus.permissionDenied, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
+            new EmployeePermissionEntity() { Id = 3, EmployeeId = 1, PermissionTypeId = 3, RequestStatus = PermissionStatus.permissionGranted, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
 
             //employee 2
-            new EmployeePermissionEntity() { Id = 4, EmployeeId = 2, PermissionTypeId = 2, RequestStatus = PermissionRequestStatus.permissionRequested, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
-            new EmployeePermissionEntity() { Id = 5, EmployeeId = 3, PermissionTypeId = 3, RequestStatus = PermissionRequestStatus.permissionRequested, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
-            new EmployeePermissionEntity() { Id = 6, EmployeeId = 4, PermissionTypeId = 4, RequestStatus = PermissionRequestStatus.permissionGranted, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
+            new EmployeePermissionEntity() { Id = 4, EmployeeId = 2, PermissionTypeId = 2, RequestStatus = PermissionStatus.permissionRequested, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
+            new EmployeePermissionEntity() { Id = 5, EmployeeId = 3, PermissionTypeId = 3, RequestStatus = PermissionStatus.permissionRequested, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
+            new EmployeePermissionEntity() { Id = 6, EmployeeId = 4, PermissionTypeId = 4, RequestStatus = PermissionStatus.permissionGranted, Timestamp = [1, 2, 3, 4, 5, 6, 7, 8] },
 
         ];
     }

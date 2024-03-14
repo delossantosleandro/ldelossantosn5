@@ -24,7 +24,6 @@ namespace LdelossantosN5.DAL.Config
             builder
                 .Property(x => x.StartDate)
                 .IsRequired();
-
         }
 
         public static EmployeeSecurityEntity[] SeedData => [

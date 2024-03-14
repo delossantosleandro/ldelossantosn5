@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    <ProjectReference Include="..\LdelossantosN5.DAL\LdelossantosN5.DAL.csproj" />
+    <ProjectReference Include="..\LdelossantosN5.Domain\LdelossantosN5.Domain.csproj" />
   </ItemGroup>
 
 </Project>

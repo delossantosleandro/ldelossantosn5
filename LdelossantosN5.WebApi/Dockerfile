@@ -6,6 +6,8 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+ENV DOCKER_ConnectionString="Server=172.17.0.3;Database=N5Challenge;User Id=SA;Password=<YourStrong@Passw0rd>;MultipleActiveResultSets=true;TrustServerCertificate=true;"
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src

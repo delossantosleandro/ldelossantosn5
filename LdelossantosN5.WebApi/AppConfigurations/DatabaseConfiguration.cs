@@ -7,17 +7,12 @@ namespace LdelossantosN5.WebApi.AppConfigurations
     {
         public static void Configure(WebApplicationBuilder builder)
         {
-            var cs = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new Exception("DefaultConnection setting is missing");
+            var cs = Environment.GetEnvironmentVariable("DOCKER_ConnectionString")
+                ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<UserPermissionDbContext>(options => options
                 .UseLazyLoadingProxies(true)
-                .UseSqlServer(cs, sqlServerOptionsAction: sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
-                })
+                .UseSqlServer(cs)
             );
         }
     }

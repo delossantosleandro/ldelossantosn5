@@ -16,36 +16,48 @@ namespace LdelossantosN5.DAL.Patterns
     {
         protected DbContext Ctx { get; }
         protected ILogger<EfUnitOfWork> Logger { get; }
-        protected IDbContextTransaction Transaction { get; private set; }
-        private EfUnitOfWork(DbContext ctx, IDbContextTransaction transaction, ILogger<EfUnitOfWork> logger)
+        private bool IsTransactionActive { get; set; }
+        protected IDbContextTransaction? Transaction { get; private set; }
+        public EfUnitOfWork(UserPermissionDbContext ctx, ILogger<EfUnitOfWork> logger)
         {
             this.Ctx = ctx;
-            this.Transaction = transaction;
             this.Logger = logger;
+            this.IsTransactionActive = false;
         }
-        public async Task<bool> SaveAsync()
+        public async Task BeginTransaction()
         {
+            this.Transaction = await this.Ctx.Database.BeginTransactionAsync();
+            this.IsTransactionActive = true;
+        }
+        public async Task<bool> SaveAndCommitAsync()
+        {
+            if (!this.IsTransactionActive)
+                throw new InactiveTransactionException();
             try
             {
                 bool result = await this.Ctx.SaveChangesAsync() > 0;
                 await this.Transaction!.CommitAsync();
                 this.Logger.LogInformation("Commit Transaction");
+                this.IsTransactionActive = false;
                 return true;
 
             }
             catch (Exception ex)
             {
                 this.Logger.LogError(ex, "Transaction error");
-                await this.Transaction!.RollbackAsync();
+                await this.ForceRollbackAsync();
                 this.Logger.LogInformation(ex, "Transaction Rollback");
                 return false;
             }
         }
-        public static async Task<EfUnitOfWork> CreateAsync(DbContext ctx, ILogger<EfUnitOfWork> logger)
+        public async Task ForceRollbackAsync()
         {
-            var transaction = await ctx.Database.BeginTransactionAsync();
-            var instance = new EfUnitOfWork(ctx, transaction, logger);
-            return instance;
+            if (this.IsTransactionActive)
+            {
+                await this.Transaction!.RollbackAsync();
+                this.IsTransactionActive = false;
+            }
         }
+
     }
 }

@@ -57,6 +57,7 @@ namespace LdelossantosN5.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SEC_EmployeePermissions", x => x.Id);
+                    table.UniqueConstraint("AK_SEC_EmployeePermissions_EmployeeId_PermissionTypeId", x => new { x.EmployeeId, x.PermissionTypeId });
                     table.ForeignKey(
                         name: "FK_SEC_EmployeePermissions_SEC_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -76,10 +77,10 @@ namespace LdelossantosN5.DAL.Migrations
                 columns: new[] { "Id", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Leandro", new DateTime(2019, 3, 11, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 2, "Mariela", new DateTime(2020, 3, 11, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 3, "Alberto", new DateTime(2021, 3, 11, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 4, "Isabel", new DateTime(2022, 3, 11, 0, 0, 0, 0, DateTimeKind.Local) }
+                    { 1, "Leandro", new DateTime(2019, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, "Mariela", new DateTime(2020, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, "Alberto", new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, "Isabel", new DateTime(2022, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.InsertData(
@@ -105,11 +106,6 @@ namespace LdelossantosN5.DAL.Migrations
                     { 5, 3, 3, 0 },
                     { 6, 4, 4, 2 }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SEC_EmployeePermissions_EmployeeId",
-                table: "SEC_EmployeePermissions",
-                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SEC_EmployeePermissions_PermissionTypeId",

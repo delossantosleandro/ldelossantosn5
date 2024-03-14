@@ -10,7 +10,7 @@ namespace LdelossantosN5.Domain
     {
         public int Id { get; set; }
         public int PermissionTypeId { get; set; }
-        public PermissionRequestStatus State { get; set; }
+        public PermissionStatus State { get; set; }
         public string ShortName { get; set; } = "";
         public string Description { get; set; } = "";
     }

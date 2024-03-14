@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LdelossantosN5.DAL.Migrations
 {
     [DbContext(typeof(UserPermissionDbContext))]
-    [Migration("20240311213338_InitialVersion")]
+    [Migration("20240313154600_InitialVersion")]
     partial class InitialVersion
     {
         /// <inheritdoc />
@@ -20,70 +20,13 @@ namespace LdelossantosN5.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("LdelossantosN5.DAL.EmployeeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SEC_Employees", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Leandro",
-                            StartDate = new DateTime(2019, 3, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Mariela",
-                            StartDate = new DateTime(2020, 3, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Alberto",
-                            StartDate = new DateTime(2021, 3, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Isabel",
-                            StartDate = new DateTime(2022, 3, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
-                        });
-                });
 
             modelBuilder.Entity("LdelossantosN5.DAL.EmployeePermissionEntity", b =>
                 {
@@ -110,7 +53,7 @@ namespace LdelossantosN5.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasAlternateKey("EmployeeId", "PermissionTypeId");
 
                     b.HasIndex("PermissionTypeId");
 
@@ -163,6 +106,63 @@ namespace LdelossantosN5.DAL.Migrations
                             EmployeeId = 4,
                             PermissionTypeId = 4,
                             RequestStatus = 2,
+                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
+                        });
+                });
+
+            modelBuilder.Entity("LdelossantosN5.DAL.EmployeeSecurityEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SEC_Employees", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Leandro",
+                            StartDate = new DateTime(2019, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Mariela",
+                            StartDate = new DateTime(2020, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Alberto",
+                            StartDate = new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Isabel",
+                            StartDate = new DateTime(2022, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
                             Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
                         });
                 });
@@ -228,7 +228,7 @@ namespace LdelossantosN5.DAL.Migrations
 
             modelBuilder.Entity("LdelossantosN5.DAL.EmployeePermissionEntity", b =>
                 {
-                    b.HasOne("LdelossantosN5.DAL.EmployeeEntity", "Employee")
+                    b.HasOne("LdelossantosN5.DAL.EmployeeSecurityEntity", "Employee")
                         .WithMany("Permissions")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -245,7 +245,7 @@ namespace LdelossantosN5.DAL.Migrations
                     b.Navigation("PermissionType");
                 });
 
-            modelBuilder.Entity("LdelossantosN5.DAL.EmployeeEntity", b =>
+            modelBuilder.Entity("LdelossantosN5.DAL.EmployeeSecurityEntity", b =>
                 {
                     b.Navigation("Permissions");
                 });

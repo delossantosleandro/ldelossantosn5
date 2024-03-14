@@ -1,4 +1,5 @@
 ﻿using LdelossantosN5.DAL.Patterns;
+using LdelossantosN5.Domain.Patterns;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -86,7 +87,7 @@ namespace LdelossantosN5.DAL.Tests.Patterns
         {
             using var ctx = this.DbFixture.CreateContext();
             var repository = new EfRepositoryBase<PermissionTypeEntity>(ctx);
-            await Assert.ThrowsAsync<ArgumentException>(() => repository.FindAsync(-1));
+            await Assert.ThrowsAsync<NotFoundException>(() => repository.FindAsync(-1));
         }
     }
 }

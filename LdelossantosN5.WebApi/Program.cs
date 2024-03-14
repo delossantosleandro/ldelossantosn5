@@ -1,14 +1,21 @@
-using ldelossantosn5.Domain;
+using LdelossantosN5.Domain;
+using LdelossantosN5.Domain;
+using LdelossantosN5.Domain.UseCases;
 using LdelossantosN5.WebApi.AppConfigurations;
+using LdelossantosN5.WebApi.Helpers;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 DatabaseConfiguration.Configure(builder);
 SerilogConfiguration.Configure(builder);
 JsonSerializationConfiguration.Configure(builder);
+
+ConfigureDomainServicesDI.Configure(builder);
 
 var app = builder.Build();
 
@@ -36,11 +43,13 @@ static void ConfigureEndpoints(WebApplication app)
     .WithName("GetEmployeeSecurity")
     .WithOpenApi();
 
-    app.MapPost("/employeesecurity/{employeeId}/permissions", (int employeeId) =>
+    app.MapPost("/employeesecurity/{employeeId}/permissions", async (int employeeId, RequestPermissionModel theModel, IRequestPermissionUseCase useCase) =>
     {
-        return string.Empty;
+        var param = new RequestPermissionUseCaseParams() { EmployeeId = employeeId, PermissionTypeId = theModel.PermissionTypeId };
+        var result = await useCase.ExecuteAsync(param);
+        return result.ToHttpResponse();
     })
-    .WithName("PostEmployeeSecurity")
+    .WithName("Request Employee Permission")
     .WithOpenApi();
 
     app.MapPut("/employeesecurity/{employeeId}/permissions/{permissionId}", (int employeeId, int permissionId) =>

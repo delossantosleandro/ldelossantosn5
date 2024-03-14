@@ -85,5 +85,27 @@ namespace LdelossantosN5.DAL.Tests.DbEntities
                 Assert.Null(removed);
             }
         }
+        [Fact]
+        public async Task CantAddTheSamePermissionType()
+        {
+            using (var ctx = this.DbFixture.CreateContext())
+            {
+                var newTypePermission = new PermissionTypeEntity()
+                {
+                    Description = "A new permission for my tests",
+                    ShortName = "New Permission"
+                };
+                ctx.PermissionTypeSet.Add(newTypePermission);
+                var newEmployee = new EmployeeSecurityEntity()
+                {
+                    Name = "Test",
+                    StartDate = DateTime.Now,
+                };
+                ctx.EmployeeSecuritySet.Add(newEmployee);
+                Assert.True(newEmployee.AddPermission(newTypePermission));
+                Assert.False(newEmployee.AddPermission(newTypePermission));
+                await ctx.SaveChangesAsync();
+            }
+        }
     }
 }

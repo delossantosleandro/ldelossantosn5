@@ -1,6 +1,6 @@
 ﻿namespace LdelossantosN5.Domain
 {
-    public enum PermissionRequestStatus
+    public enum PermissionStatus
     {
         permissionRequested = 0,
         permissionDenied = 1,

@@ -1,6 +1,40 @@
-@LdelossantosN5.WebApi_HostAddress = http://localhost:5175
+@webapiHostAddress = https://localhost:32783
+@employeeId = 1
 
-GET {{LdelossantosN5.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{webapiHostAddress}}/employeesecurity/{{employeeId}}/permissions
+Content-Type: application/json
+
+{
+  "permissionTypeId": 1
+}
+
+###
+
+POST {{webapiHostAddress}}/employeesecurity/{{employeeId}}/permissions
+Content-Type: application/json
+
+{
+  "permissionTypeId": 4
+}
+
+###
+
+# El empleado no existe
+POST {{webapiHostAddress}}/employeesecurity/25/permissions
+Content-Type: application/json
+
+{
+  "permissionTypeId": 4
+}
+
+###
+
+# El permiso no existe
+POST {{webapiHostAddress}}/employeesecurity/1/permissions
+Content-Type: application/json
+
+{
+  "permissionTypeId": 8
+}
 
 ###

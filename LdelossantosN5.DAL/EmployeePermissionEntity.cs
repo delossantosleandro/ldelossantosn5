@@ -5,7 +5,7 @@ namespace LdelossantosN5.DAL
     public class EmployeePermissionEntity
         : DbEntity
     {
-        public PermissionRequestStatus RequestStatus { get; set; }
+        public PermissionStatus RequestStatus { get; set; }
 
         #region Employee relation
         public virtual EmployeeSecurityEntity? Employee { get; set; }
