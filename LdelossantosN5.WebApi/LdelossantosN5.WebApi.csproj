@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LdelossantosN5.DAL\LdelossantosN5.Domain.Impl.csproj" />
     <ProjectReference Include="..\LdelossantosN5.Domain.Impl\LdelossantosN5.Domain.Impl.csproj" />
     <ProjectReference Include="..\LdelossantosN5.Domain\LdelossantosN5.Domain.csproj" />
   </ItemGroup>
