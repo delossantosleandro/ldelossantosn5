@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL
+namespace LdelossantosN5.Domain.Impl.DbEntities
 {
     public class PermissionTypeEntity
         : DbEntity

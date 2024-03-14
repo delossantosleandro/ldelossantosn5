@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LdelossantosN5.DAL.Config
+namespace LdelossantosN5.Domain.Impl.DbEntities.Config
 {
     public class BaseEntityConfig<TEntity>
         : IEntityTypeConfiguration<TEntity>

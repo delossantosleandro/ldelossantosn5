@@ -1,9 +1,8 @@
 ﻿
-using LdelossantosN5.DAL.Patterns;
-using LdelossantosN5.DAL.Repositories;
-using LdelossantosN5.DAL.Repositories.Impl;
 using LdelossantosN5.Domain.Impl.UseCases;
 using LdelossantosN5.Domain.Patterns;
+using LdelossantosN5.Domain.Repositories;
+using LdelossantosN5.Domain.Repositories.Impl;
 using LdelossantosN5.Domain.UseCases;
 
 namespace LdelossantosN5.WebApi.AppConfigurations

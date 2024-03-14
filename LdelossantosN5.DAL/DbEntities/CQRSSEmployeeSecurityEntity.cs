@@ -1,4 +1,4 @@
-﻿namespace LdelossantosN5.DAL
+﻿namespace LdelossantosN5.Domain.Impl.DbEntities
 {
 
     /// <summary>

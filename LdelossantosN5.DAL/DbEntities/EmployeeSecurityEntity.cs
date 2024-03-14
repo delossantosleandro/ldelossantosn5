@@ -1,11 +1,11 @@
-﻿using LdelossantosN5.Domain;
+﻿using LdelossantosN5.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL
+namespace LdelossantosN5.Domain.Impl.DbEntities
 {
     public class EmployeeSecurityEntity
         : DbEntity
@@ -20,9 +20,9 @@ namespace LdelossantosN5.DAL
         /// <returns>True when succeed, false if the permission already exists</returns>
         public bool RequestPermission(PermissionTypeEntity type)
         {
-            if (this.Permissions.Count(x => x.PermissionType == type) > 0)
+            if (Permissions.Count(x => x.PermissionType == type) > 0)
                 return false;
-            this.Permissions.Add(new EmployeePermissionEntity() { Employee = this, PermissionType = type, RequestStatus = PermissionStatus.permissionRequested });
+            Permissions.Add(new EmployeePermissionEntity() { Employee = this, PermissionType = type, RequestStatus = PermissionStatus.permissionRequested });
             return true;
         }
     }

@@ -1,7 +1,7 @@
-﻿using LdelossantosN5.DAL.Config;
+﻿using LdelossantosN5.Domain.Impl.DbEntities.Config;
 using Microsoft.EntityFrameworkCore;
 
-namespace LdelossantosN5.DAL
+namespace LdelossantosN5.Domain.Impl.DbEntities
 {
     public class UserPermissionDbContext
         : DbContext

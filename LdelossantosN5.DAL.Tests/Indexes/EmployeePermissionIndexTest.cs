@@ -1,12 +1,7 @@
 ﻿using Elastic.Clients.Elasticsearch;
-using LdelossantosN5.DAL.Indexes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LdelossantosN5.Domain.Indexes;
 
-namespace LdelossantosN5.DAL.Tests.Indexes
+namespace LdelossantosN5.Domain.Tests.Indexes
 {
     public class EmployeePermissionIndexTest
         : IClassFixture<ElasticLocalFixture>

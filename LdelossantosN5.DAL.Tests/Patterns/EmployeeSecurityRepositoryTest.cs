@@ -1,6 +1,7 @@
-﻿using LdelossantosN5.DAL.Repositories;
-using LdelossantosN5.DAL.Repositories.Impl;
-using LdelossantosN5.Domain;
+﻿using LdelossantosN5.Domain.Repositories;
+using LdelossantosN5.Domain.Repositories.Impl;
+using LdelossantosN5.Domain.Impl.DbEntities;
+using LdelossantosN5.Domain.Models;
 using LdelossantosN5.Domain.Patterns;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using System;
@@ -11,7 +12,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL.Tests.Patterns
+namespace LdelossantosN5.Domain.Tests.Patterns
 {
     public class EmployeeSecurityRepositoryTest
         : IClassFixture<SqlLocalDbFixture>

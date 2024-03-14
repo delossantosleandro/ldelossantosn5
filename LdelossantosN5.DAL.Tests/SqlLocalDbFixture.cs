@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL.Tests
+namespace LdelossantosN5.Domain.Tests
 {
     public class SqlLocalDbFixture
     : IAsyncLifetime

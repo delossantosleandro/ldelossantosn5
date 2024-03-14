@@ -1,5 +1,5 @@
 ﻿
-namespace LdelossantosN5.DAL.Indexes
+namespace LdelossantosN5.Domain.Indexes
 {
     /// <summary>
     /// Elastic search index for employee permissions

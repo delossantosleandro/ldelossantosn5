@@ -1,14 +1,10 @@
-﻿using LdelossantosN5.DAL.CQRS;
-using LdelossantosN5.DAL.Repositories;
-using LdelossantosN5.Domain;
+﻿using LdelossantosN5.Domain.CQRS;
+using LdelossantosN5.Domain.Impl.DbEntities;
+using LdelossantosN5.Domain.Models;
+using LdelossantosN5.Domain.Repositories;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL.Tests.CQRS
+namespace LdelossantosN5.Domain.Tests.CQRS
 {
     /// <summary>
     /// Test clasess, this cases using only mocks

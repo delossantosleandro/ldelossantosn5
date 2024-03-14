@@ -1,13 +1,7 @@
-﻿using LdelossantosN5.DAL.Patterns;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
 using LdelossantosN5.Domain.Patterns;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL.Tests.Patterns
+namespace LdelossantosN5.Domain.Tests.Patterns
 {
     public class EfRepositoryBaseTest
         : IClassFixture<SqlLocalDbFixture>

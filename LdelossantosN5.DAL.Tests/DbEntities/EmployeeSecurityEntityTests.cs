@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL.Tests.DbEntities
+namespace LdelossantosN5.Domain.Tests.DbEntities
 {
     public class EmployeeSecurityEntityTests
         : IClassFixture<SqlLocalDbFixture>

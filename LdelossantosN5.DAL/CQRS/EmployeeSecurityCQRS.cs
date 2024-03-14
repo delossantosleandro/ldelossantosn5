@@ -1,13 +1,8 @@
-﻿using LdelossantosN5.DAL.Repositories;
-using LdelossantosN5.Domain;
-using LdelossantosN5.Domain.Patterns;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LdelossantosN5.Domain.Repositories;
+using LdelossantosN5.Domain.CQRS;
+using LdelossantosN5.Domain.Models;
 
-namespace LdelossantosN5.DAL.CQRS
+namespace LdelossantosN5.Domain.CQRS
 {
     public class EmployeeSecurityCQRS
         : IEmployeeSecurityCQRS

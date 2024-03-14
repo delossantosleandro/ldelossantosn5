@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LdelossantosN5.DAL.Indexes
+﻿namespace LdelossantosN5.Domain.Indexes
 {
     public class EmployeePermisionIndexEntry
     {

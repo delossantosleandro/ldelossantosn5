@@ -1,6 +1,5 @@
-﻿using LdelossantosN5.DAL;
-using LdelossantosN5.DAL.Repositories;
-using LdelossantosN5.Domain.Patterns;
+﻿using LdelossantosN5.Domain.Patterns;
+using LdelossantosN5.Domain.Repositories;
 using LdelossantosN5.Domain.UseCases;
 using Microsoft.Extensions.Logging;
 

@@ -1,9 +1,7 @@
-using LdelossantosN5.Domain;
-using LdelossantosN5.Domain;
+using LdelossantosN5.Domain.Models;
 using LdelossantosN5.Domain.UseCases;
 using LdelossantosN5.WebApi.AppConfigurations;
 using LdelossantosN5.WebApi.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
 

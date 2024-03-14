@@ -1,4 +1,4 @@
-﻿using LdelossantosN5.DAL;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LdelossantosN5.WebApi.AppConfigurations

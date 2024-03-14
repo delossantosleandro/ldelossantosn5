@@ -1,8 +1,9 @@
-﻿using LdelossantosN5.Domain;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
+using LdelossantosN5.Domain.Models;
 using LdelossantosN5.Domain.Patterns;
 using System.Text.Json;
 
-namespace LdelossantosN5.DAL.CQRS
+namespace LdelossantosN5.Domain.CQRS
 {
     public class EmployeeSecurityCQRSRepositoryEf
         : IEmployeeSecurityCQRSRepository

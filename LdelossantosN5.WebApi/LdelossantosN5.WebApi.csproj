@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LdelossantosN5.DAL\LdelossantosN5.DAL.csproj" />
-    <ProjectReference Include="..\LdelossantosN5.Domain.Impl\LdelossantosN5.Domain.Impl.csproj" />
+    <ProjectReference Include="..\LdelossantosN5.DAL\LdelossantosN5.Domain.Impl.csproj" />
     <ProjectReference Include="..\LdelossantosN5.Domain\LdelossantosN5.Domain.csproj" />
   </ItemGroup>
 

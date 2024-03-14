@@ -1,4 +1,5 @@
-﻿using LdelossantosN5.Domain.Patterns;
+﻿using LdelossantosN5.Domain.Impl.DbEntities;
+using LdelossantosN5.Domain.Patterns;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.DAL.Patterns
+namespace LdelossantosN5.Domain.Patterns
 {
     public class EfUnitOfWork
         : IUnitOfWork

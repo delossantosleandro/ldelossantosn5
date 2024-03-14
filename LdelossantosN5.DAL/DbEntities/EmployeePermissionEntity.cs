@@ -1,6 +1,6 @@
-﻿using LdelossantosN5.Domain;
+﻿using LdelossantosN5.Domain.Models;
 
-namespace LdelossantosN5.DAL
+namespace LdelossantosN5.Domain.Impl.DbEntities
 {
     public class EmployeePermissionEntity
         : DbEntity
