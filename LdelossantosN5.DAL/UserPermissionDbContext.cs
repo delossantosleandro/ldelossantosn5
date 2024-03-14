@@ -24,11 +24,18 @@ namespace LdelossantosN5.DAL
         /// </summary>
         public DbSet<EmployeePermissionEntity> EmployeePermissionSet { get; set; }
 
+        /// <summary>
+        /// Simulate a documental repository for fast retrieval of security permissions
+        /// In real applications this information must be in another database, If this were the only scenario, a documental storage could be a better option
+        /// </summary>
+        public DbSet<CQRSSEmployeeSecurityEntity> CQRSSEmployeeSecurityEntitySet { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new EmployeeSecurityEntityConfig());
             modelBuilder.ApplyConfiguration(new PermissionTypeEntityConfig());
             modelBuilder.ApplyConfiguration(new EmployeePermissionEntityConfig());
+            modelBuilder.ApplyConfiguration(new CQRSSEmployeeSecuritySimulatedRepoConfig());
 
             //Order matters
             modelBuilder.Entity<PermissionTypeEntity>().HasData(PermissionTypeEntityConfig.SeedData);

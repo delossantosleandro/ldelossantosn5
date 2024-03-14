@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LdelossantosN5.DAL.Migrations
 {
     [DbContext(typeof(UserPermissionDbContext))]
-    [Migration("20240313154600_InitialVersion")]
+    [Migration("20240314153009_InitialVersion")]
     partial class InitialVersion
     {
         /// <inheritdoc />
@@ -27,6 +27,20 @@ namespace LdelossantosN5.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LdelossantosN5.DAL.CQRSSEmployeeSecurityEntity", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmployeeId");
+
+                    b.ToTable("CQRSSEmployeeSecurityEntitySet");
+                });
 
             modelBuilder.Entity("LdelossantosN5.DAL.EmployeePermissionEntity", b =>
                 {
@@ -141,28 +155,28 @@ namespace LdelossantosN5.DAL.Migrations
                         {
                             Id = 1,
                             Name = "Leandro",
-                            StartDate = new DateTime(2019, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDate = new DateTime(2019, 3, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
                         },
                         new
                         {
                             Id = 2,
                             Name = "Mariela",
-                            StartDate = new DateTime(2020, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDate = new DateTime(2020, 3, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
                         },
                         new
                         {
                             Id = 3,
                             Name = "Alberto",
-                            StartDate = new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDate = new DateTime(2021, 3, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
                         },
                         new
                         {
                             Id = 4,
                             Name = "Isabel",
-                            StartDate = new DateTime(2022, 3, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDate = new DateTime(2022, 3, 14, 0, 0, 0, 0, DateTimeKind.Local),
                             Timestamp = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }
                         });
                 });

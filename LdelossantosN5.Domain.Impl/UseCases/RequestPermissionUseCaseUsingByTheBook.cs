@@ -30,7 +30,7 @@ namespace LdelossantosN5.Domain.Impl.UseCases
         {
             var employee = await this.EmployeeRepository.FindAsync(useCaseParam.EmployeeId);
             var permissionType = await this.PermissionTypeRepository.FindAsync(useCaseParam.PermissionTypeId);
-            if (!employee.AddPermission(permissionType))
+            if (!employee.RequestPermission(permissionType))
                 result.AddError("K_RecordAlreadyExist", $"The permission ({permissionType.Id}) - {permissionType.ShortName} already exists");
         }
 

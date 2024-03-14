@@ -11,8 +11,7 @@ namespace LdelossantosN5.DAL.Tests
     public class ElasticLocalFixture
         : IAsyncLifetime
     {
-        private EmployeePermissionIndex elasticIndex;
-
+        private EmployeePermissionIndex? elasticIndex;
         public IEmployeePermissionIndex? ElasticIndex { get; private set; }
         public ElasticsearchClient? ElasticsearchClient { get; private set; }
         public string IndexName { get; private set; } = string.Empty;

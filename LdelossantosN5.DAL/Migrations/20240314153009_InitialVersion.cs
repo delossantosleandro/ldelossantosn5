@@ -14,6 +14,18 @@ namespace LdelossantosN5.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CQRSSEmployeeSecurityEntitySet",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Data = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CQRSSEmployeeSecurityEntitySet", x => x.EmployeeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SEC_Employees",
                 columns: table => new
                 {
@@ -77,10 +89,10 @@ namespace LdelossantosN5.DAL.Migrations
                 columns: new[] { "Id", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Leandro", new DateTime(2019, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 2, "Mariela", new DateTime(2020, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 3, "Alberto", new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 4, "Isabel", new DateTime(2022, 3, 13, 0, 0, 0, 0, DateTimeKind.Local) }
+                    { 1, "Leandro", new DateTime(2019, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, "Mariela", new DateTime(2020, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, "Alberto", new DateTime(2021, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, "Isabel", new DateTime(2022, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.InsertData(
@@ -116,6 +128,9 @@ namespace LdelossantosN5.DAL.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CQRSSEmployeeSecurityEntitySet");
+
             migrationBuilder.DropTable(
                 name: "SEC_EmployeePermissions");
 

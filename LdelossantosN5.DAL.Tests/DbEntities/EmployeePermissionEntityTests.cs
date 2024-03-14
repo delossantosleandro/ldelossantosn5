@@ -34,7 +34,7 @@ namespace LdelossantosN5.DAL.Tests.DbEntities
                     StartDate = DateTime.Now,
                 };
                 //I made this just to show we can add logic to our model... but there are better ways for high volume transactional approach
-                newEmployee.AddPermission(newTypePermission);
+                newEmployee.RequestPermission(newTypePermission);
                 ctx.EmployeeSecuritySet.Add(newEmployee);
                 await ctx.SaveChangesAsync();
                 newTypeId = newTypePermission.Id;
@@ -65,7 +65,7 @@ namespace LdelossantosN5.DAL.Tests.DbEntities
                     StartDate = DateTime.Now,
                 };
                 //I made this just to show we can add logic to our model... but there are better ways for high volume transactional approach
-                newEmployee.AddPermission(newTypePermission);
+                newEmployee.RequestPermission(newTypePermission);
                 ctx.EmployeeSecuritySet.Add(newEmployee);
                 await ctx.SaveChangesAsync();
                 newEmployeeId = newEmployee.Id;
@@ -102,8 +102,8 @@ namespace LdelossantosN5.DAL.Tests.DbEntities
                     StartDate = DateTime.Now,
                 };
                 ctx.EmployeeSecuritySet.Add(newEmployee);
-                Assert.True(newEmployee.AddPermission(newTypePermission));
-                Assert.False(newEmployee.AddPermission(newTypePermission));
+                Assert.True(newEmployee.RequestPermission(newTypePermission));
+                Assert.False(newEmployee.RequestPermission(newTypePermission));
                 await ctx.SaveChangesAsync();
             }
         }

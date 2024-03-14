@@ -1,4 +1,5 @@
 ﻿using LdelossantosN5.DAL.Patterns;
+using LdelossantosN5.Domain;
 using LdelossantosN5.Domain.Patterns;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace LdelossantosN5.DAL.Repositories
     public interface IEmployeeSecurityRepository
         : IRepository<EmployeeSecurityEntity>
     {
+        Task<EmployeeSecurityEntity> GetEmployeeOptimizedAsync(int employeeId);
     }
 }

@@ -18,7 +18,7 @@ namespace LdelossantosN5.DAL
         /// </summary>
         /// <param name="type">The type of requested permission</param>
         /// <returns>True when succeed, false if the permission already exists</returns>
-        public bool AddPermission(PermissionTypeEntity type)
+        public bool RequestPermission(PermissionTypeEntity type)
         {
             if (this.Permissions.Count(x => x.PermissionType == type) > 0)
                 return false;
