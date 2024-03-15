@@ -14,7 +14,7 @@ namespace LdelossantosN5.Domain.Impl.Indexes
         {
             //var certificate = new X509Certificate2(@"Indexes/elasticcertificate.crt");
             var settings = new ElasticsearchClientSettings(new Uri(serverSettings.ServerName))
-                .Authentication(new BasicAuthentication("elastic", "AJ+h-rwFBJpOdGw5G3MD"))
+                .Authentication(new BasicAuthentication(serverSettings.UserName, serverSettings.Password))
                 .ServerCertificateValidationCallback((a, b, c, d) => true);
             //.ClientCertificate(certificate);
 
