@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LdelossantosN5.Domain.Impl.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialVersion : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,10 +89,10 @@ namespace LdelossantosN5.Domain.Impl.Migrations
                 columns: new[] { "Id", "Name", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Leandro", new DateTime(2019, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 2, "Mariela", new DateTime(2020, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 3, "Alberto", new DateTime(2021, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 4, "Isabel", new DateTime(2022, 3, 14, 0, 0, 0, 0, DateTimeKind.Local) }
+                    { 1, "Leandro", new DateTime(2019, 3, 15, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, "Mariela", new DateTime(2020, 3, 15, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, "Alberto", new DateTime(2021, 3, 15, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, "Isabel", new DateTime(2022, 3, 15, 0, 0, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.InsertData(

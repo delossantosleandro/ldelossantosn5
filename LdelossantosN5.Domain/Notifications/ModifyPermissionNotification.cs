@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LdelossantosN5.Domain.Notification
 {
-    public class PermissionModifyNotification
+    public class ModifyPermissionNotification
         : INotification
     {
         public int PermissionId { get; set; }

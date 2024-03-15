@@ -18,8 +18,8 @@ namespace LdelossantosN5.Domain.Impl.UseCases
         where TMessage : class, INotification
 
     {
-        protected INotificationSender NotificationSender { get; }
-        protected IUnitOfWork UOF { get; }
+        private INotificationSender NotificationSender { get; }
+        private IUnitOfWork UOF { get; }
         protected ILogger Logger { get; }
         public UseCaseBase(INotificationSender notificationSender, IUnitOfWork uOF, ILogger logger)
         {

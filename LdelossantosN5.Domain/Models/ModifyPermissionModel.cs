@@ -8,5 +8,8 @@ namespace LdelossantosN5.Domain.Models
 {
     public class ModifyPermissionModel
     {
+        public int PermissionId { get; set; }
+        public int EmployeeId { get; set; }
+        public PermissionStatus NewStatus { get; set; }
     }
 }

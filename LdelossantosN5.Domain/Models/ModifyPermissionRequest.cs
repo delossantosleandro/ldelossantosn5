@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LdelossantosN5.Domain.Models
 {
-    public class RequestPermissionModel
+    public class ModifyPermissionRequest
     {
-        public int PermissionTypeId { get; set; }
+        public PermissionStatus Status { get; set; }
     }
 }

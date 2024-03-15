@@ -1,36 +1,21 @@
 ﻿using LdelossantosN5.Domain.Impl.DbEntities;
 using LdelossantosN5.Domain.Impl.UseCases;
 using LdelossantosN5.Domain.Notification;
-using LdelossantosN5.Domain.Notifications;
 using LdelossantosN5.Domain.Patterns;
 using LdelossantosN5.Domain.Repositories;
 using LdelossantosN5.Domain.UseCases;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
 {
     public class RequestPermissionUseCaseUsingByTheBookTest
     {
-        public RequestPermissionUseCaseUsingByTheBookTest()
-        {
-            this.LogFactory = LoggerFactory.Create(builder => builder.AddDebug());
-        }
-
-        public ILoggerFactory LogFactory { get; }
-
         class TestValues
+            : UseCaseTestValues
         {
             public Mock<IEmployeeSecurityRepository> moqEmployeeSecurityRepo = new Mock<IEmployeeSecurityRepository>();
             public Mock<IPermissionTypeRepository> moqPermissionTypeRepository = new Mock<IPermissionTypeRepository>();
-            public Mock<IUnitOfWork> moqUOF = new Mock<IUnitOfWork>();
-            public Mock<INotificationSender> moqMediator = new Mock<INotificationSender>();
             public RequestPermissionUseCaseUsingByTheBook GetUseCase(ILoggerFactory logFactory)
             {
                 return new RequestPermissionUseCaseUsingByTheBook(
@@ -42,6 +27,13 @@ namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
                 );
             }
         }
+
+        public RequestPermissionUseCaseUsingByTheBookTest()
+        {
+            this.LogFactory = LoggerFactory.Create(builder => builder.AddDebug());
+        }
+
+        public ILoggerFactory LogFactory { get; }
 
         [Fact]
         public void CreateRequestPermisionUseCase()

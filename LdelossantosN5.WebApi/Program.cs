@@ -2,6 +2,7 @@ using LdelossantosN5.Domain.Models;
 using LdelossantosN5.Domain.UseCases;
 using LdelossantosN5.WebApi.AppConfigurations;
 using LdelossantosN5.WebApi.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,10 +31,11 @@ app.UseHttpsRedirection();
 SerilogConfiguration.ConfigureMiddleware(app);
 
 using (var scope = app.Services.CreateScope())
-{ 
+{
     await KafkaConfiguration.Initialize(scope.ServiceProvider);
     await ElasticConfiguration.Initialize(scope.ServiceProvider);
     await DatabaseConfiguration.Initialize(scope.ServiceProvider);
+    await DatabaseConfiguration.InitializeCQRS(scope.ServiceProvider);
 }
 ConfigureEndpoints(app);
 
@@ -41,7 +43,8 @@ app.Run();
 
 static void ConfigureEndpoints(WebApplication app)
 {
-    app.MapGet("/employeesecurity/{employeeId}", async (int employeeId, IGetPermissionsUseCase useCase) =>
+    app.MapGet("/employeesecurity/{employeeId}",
+        async (int employeeId, IGetPermissionsUseCase useCase) =>
     {
         var request = new GetPermissionsModel() { EmployeeId = employeeId };
         var result = await useCase.ExecuteAsync(request);
@@ -50,18 +53,22 @@ static void ConfigureEndpoints(WebApplication app)
     .WithName("Get Employee Permissions")
     .WithOpenApi();
 
-    app.MapPost("/employeesecurity/{employeeId}/permissions", async (int employeeId, RequestPermissionModel theModel, IRequestPermissionUseCase useCase) =>
+    app.MapPost("/employeesecurity/{employeeId}/permissions",
+        async (int employeeId, [FromBody] int permissionTypeId, IRequestPermissionUseCase useCase) =>
     {
-        var param = new RequestPermissionUseCaseParams() { EmployeeId = employeeId, PermissionTypeId = theModel.PermissionTypeId };
+        var param = new RequestPermissionUseCaseParams() { EmployeeId = employeeId, PermissionTypeId = permissionTypeId };
         var result = await useCase.ExecuteAsync(param);
         return result.ToHttpResponse();
     })
     .WithName("Request Employee Permission")
     .WithOpenApi();
 
-    app.MapPut("/employeesecurity/{employeeId}/permissions/{permissionId}", (int employeeId, int permissionId) =>
+    app.MapPut("/employeesecurity/{employeeId}/permissions/{permissionId}",
+        async (int employeeId, int permissionId, [FromBody] ModifyPermissionRequest request, IModifyPermissionUseCase useCase) =>
     {
-        return string.Empty;
+        var param = new ModifyPermissionModel() { EmployeeId = employeeId, PermissionId = permissionId, NewStatus = request.Status };
+        var result = await useCase.ExecuteAsync(param);
+        return result.ToHttpResponse();
     })
     .WithName("PutEmployeeSecurity")
     .WithOpenApi();

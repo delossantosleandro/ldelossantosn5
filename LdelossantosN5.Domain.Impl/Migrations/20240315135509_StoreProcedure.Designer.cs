@@ -4,6 +4,7 @@ using LdelossantosN5.Domain.Impl.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LdelossantosN5.Domain.Impl.Migrations
 {
     [DbContext(typeof(UserPermissionDbContext))]
-    partial class UserPermissionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240315135509_StoreProcedure")]
+    partial class StoreProcedure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

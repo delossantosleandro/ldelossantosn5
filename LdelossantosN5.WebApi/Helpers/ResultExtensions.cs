@@ -7,7 +7,7 @@ namespace LdelossantosN5.WebApi.Helpers
         public static IResult ToHttpResponse(this UseCaseResultModel result)
         {
             if (result.Success)
-                return Results.Ok(result);
+                return Results.Ok(result.ResponseData);
 
             if (result.IsNotFound())
                 return Results.NotFound(result);

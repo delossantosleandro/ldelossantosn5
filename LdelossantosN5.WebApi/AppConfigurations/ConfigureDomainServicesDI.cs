@@ -1,6 +1,8 @@
 ﻿
 using LdelossantosN5.Domain.CQRS;
+using LdelossantosN5.Domain.Impl.DbEntities;
 using LdelossantosN5.Domain.Impl.Indexes;
+using LdelossantosN5.Domain.Impl.Repositories;
 using LdelossantosN5.Domain.Impl.TopicsNotification;
 using LdelossantosN5.Domain.Impl.UseCases;
 using LdelossantosN5.Domain.Indexes;
@@ -26,6 +28,8 @@ namespace LdelossantosN5.WebApi.AppConfigurations
             builder.Services.AddScoped<IEmployeeSecurityCQRSRepository, EmployeeSecurityCQRSRepositoryEf>();
             builder.Services.AddScoped<IEmployeeSecurityCQRS, EmployeeSecurityCQRS>();
             builder.Services.AddScoped<IGetPermissionsUseCase, GetPermissionUseCaseCQRS>();
+            builder.Services.AddScoped<IEmployeePermissionRepository>((servs) => servs.GetService<UserPermissionDbContext>()!);
+            builder.Services.AddScoped<IModifyPermissionUseCase, ModifyPermissionUseCaseStoreProcedure>();
         }
     }
 }
