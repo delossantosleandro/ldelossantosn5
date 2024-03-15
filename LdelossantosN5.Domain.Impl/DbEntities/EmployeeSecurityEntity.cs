@@ -18,12 +18,13 @@ namespace LdelossantosN5.Domain.Impl.DbEntities
         /// </summary>
         /// <param name="type">The type of requested permission</param>
         /// <returns>True when succeed, false if the permission already exists</returns>
-        public bool RequestPermission(PermissionTypeEntity type)
+        public EmployeePermissionEntity? RequestPermission(PermissionTypeEntity type)
         {
             if (Permissions.Count(x => x.PermissionType == type) > 0)
-                return false;
-            Permissions.Add(new EmployeePermissionEntity() { Employee = this, PermissionType = type, RequestStatus = PermissionStatus.permissionRequested });
-            return true;
+                return null;
+            var result = new EmployeePermissionEntity() { Employee = this, PermissionType = type, RequestStatus = PermissionStatus.permissionRequested };
+            Permissions.Add(result);
+            return result;
         }
     }
 }

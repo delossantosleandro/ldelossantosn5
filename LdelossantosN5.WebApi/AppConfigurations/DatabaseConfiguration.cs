@@ -15,5 +15,11 @@ namespace LdelossantosN5.WebApi.AppConfigurations
                 .UseSqlServer(cs)
             );
         }
+
+        public static async Task Initialize(IServiceProvider services)
+        {
+            var db = services.GetService<UserPermissionDbContext>();
+            await db!.Database.EnsureCreatedAsync();
+        }
     }
 }

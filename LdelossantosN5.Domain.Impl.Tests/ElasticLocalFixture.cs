@@ -1,4 +1,5 @@
 ﻿using Elastic.Clients.Elasticsearch;
+using LdelossantosN5.Domain.Impl.Indexes;
 using LdelossantosN5.Domain.Indexes;
 
 namespace LdelossantosN5.Domain.Tests
@@ -13,7 +14,7 @@ namespace LdelossantosN5.Domain.Tests
         public async Task InitializeAsync()
         {
             //It's not a good practice to put this here, but no need to add additional complexity to this challenge...
-            this.elasticIndex = new EmployeePermissionIndex();
+            this.elasticIndex = new EmployeePermissionIndex(new ElasticIndexSettings());
             await elasticIndex.EnsureIndexCreationAsync();
             this.ElasticIndex = elasticIndex;
             this.ElasticsearchClient = elasticIndex.GetClient();

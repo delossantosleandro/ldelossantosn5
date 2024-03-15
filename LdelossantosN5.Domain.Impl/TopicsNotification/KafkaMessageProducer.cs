@@ -4,8 +4,9 @@ using LdelossantosN5.Domain.TopicsNotification;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 
-namespace LdelossantosN5.Domain.TopicsNotification
+namespace LdelossantosN5.Domain.Impl.TopicsNotification
 {
+    [ExcludeFromCodeCoverage]
     public class KafkaMessageProducer
         : IMessageProducer
     {
@@ -14,18 +15,20 @@ namespace LdelossantosN5.Domain.TopicsNotification
         private IProducer<string, string> Producer { get; }
         private ILogger<KafkaMessageProducer> Logs { get; }
         public string BootstrapServers { get; }
-        public KafkaMessageProducer(ILogger<KafkaMessageProducer> logs, string boostrapServers = "localhost:9092")
+        public KafkaMessageProducer(ILogger<KafkaMessageProducer> logs, KafkaSettings settings)
         {
-            this.BootstrapServers = boostrapServers;
+            //Inject a configuration Object
+            this.BootstrapServers = settings.BoostrapServers;
             this.Logs = logs;
 
-            var config = new ProducerConfig { BootstrapServers = boostrapServers, };
+            var config = new ProducerConfig { BootstrapServers = this.BootstrapServers };
             this.Producer = new ProducerBuilder<string, string>(config).Build();
         }
-        [ExcludeFromCodeCoverage]
         public async Task EnsureTopicIsCreatedAsync()
         {
-            using var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = this.BootstrapServers }).Build();
+            var config = new AdminClientConfig { BootstrapServers = this.BootstrapServers };
+
+            using var adminClient = new AdminClientBuilder(config).Build();
             try
             {
                 await adminClient.CreateTopicsAsync(new[] { new TopicSpecification { Name = K_TopicName, NumPartitions = 1, ReplicationFactor = 1 } });
@@ -37,10 +40,11 @@ namespace LdelossantosN5.Domain.TopicsNotification
             }
 
         }
-        [ExcludeFromCodeCoverage]
         public async Task EnsureTopicDeletedAsync()
         {
-            using var adminClient = new AdminClientBuilder(new AdminClientConfig { BootstrapServers = this.BootstrapServers }).Build();
+            var config = new AdminClientConfig { BootstrapServers = this.BootstrapServers };
+
+            using var adminClient = new AdminClientBuilder(config).Build();
             try
             {
                 await adminClient.DeleteTopicsAsync(new List<string> { K_TopicName });
@@ -51,13 +55,14 @@ namespace LdelossantosN5.Domain.TopicsNotification
                 Logs.LogError(e, $"An error occurred while deleting topic {K_TopicName}");
             }
         }
-        [ExcludeFromCodeCoverage]
-        public async Task DeliverMessage(TopicMessage message)
+        public async Task DeliverMessageAsync(TopicMessage message)
         {
             var theMessage = new Message<string, string>() { Key = Guid.NewGuid().ToString(), Value = message.ToString() };
             try
             {
                 await this.Producer.ProduceAsync(K_TopicName, theMessage);
+                Logs.LogInformation($"{K_TopicName} {theMessage.Key} {theMessage.Value} delivered");
+
             }
             catch (ProduceException<string, string> e)
             {

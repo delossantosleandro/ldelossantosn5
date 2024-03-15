@@ -103,8 +103,8 @@ namespace LdelossantosN5.Domain.Tests.DbEntities
                     StartDate = DateTime.Now,
                 };
                 ctx.EmployeeSecuritySet.Add(newEmployee);
-                Assert.True(newEmployee.RequestPermission(newTypePermission));
-                Assert.False(newEmployee.RequestPermission(newTypePermission));
+                Assert.NotNull(newEmployee.RequestPermission(newTypePermission));
+                Assert.Null(newEmployee.RequestPermission(newTypePermission));
                 await ctx.SaveChangesAsync();
             }
         }

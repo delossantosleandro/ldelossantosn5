@@ -1,8 +1,11 @@
 ﻿using LdelossantosN5.Domain.Impl.DbEntities;
 using LdelossantosN5.Domain.Impl.UseCases;
+using LdelossantosN5.Domain.Notification;
+using LdelossantosN5.Domain.Notifications;
 using LdelossantosN5.Domain.Patterns;
 using LdelossantosN5.Domain.Repositories;
 using LdelossantosN5.Domain.UseCases;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -27,13 +30,15 @@ namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
             public Mock<IEmployeeSecurityRepository> moqEmployeeSecurityRepo = new Mock<IEmployeeSecurityRepository>();
             public Mock<IPermissionTypeRepository> moqPermissionTypeRepository = new Mock<IPermissionTypeRepository>();
             public Mock<IUnitOfWork> moqUOF = new Mock<IUnitOfWork>();
+            public Mock<INotificationSender> moqMediator = new Mock<INotificationSender>();
             public RequestPermissionUseCaseUsingByTheBook GetUseCase(ILoggerFactory logFactory)
             {
                 return new RequestPermissionUseCaseUsingByTheBook(
-                    moqEmployeeSecurityRepo.Object,
-                    moqPermissionTypeRepository.Object,
+                    moqMediator.Object,
                     moqUOF.Object,
-                    logFactory.CreateLogger<RequestPermissionUseCaseUsingByTheBook>()
+                    logFactory.CreateLogger<RequestPermissionUseCaseUsingByTheBook>(),
+                    moqEmployeeSecurityRepo.Object,
+                    moqPermissionTypeRepository.Object
                 );
             }
         }
@@ -50,10 +55,8 @@ namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
         {
             var testValues = new TestValues();
 
-            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>()))
-                .ReturnsAsync(new DbEntities.EmployeeSecurityEntity());
-            testValues.moqPermissionTypeRepository.Setup(repo => repo.FindAsync(It.IsAny<int>()))
-                .ReturnsAsync(new DbEntities.PermissionTypeEntity());
+            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>())).ReturnsAsync(new DbEntities.EmployeeSecurityEntity());
+            testValues.moqPermissionTypeRepository.Setup(repo => repo.FindAsync(It.IsAny<int>())).ReturnsAsync(new DbEntities.PermissionTypeEntity());
 
             var result = await testValues.GetUseCase(LogFactory).ExecuteAsync(new RequestPermissionUseCaseParams() { EmployeeId = 1, PermissionTypeId = 1 });
             Assert.True(result.Success);
@@ -64,8 +67,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
         {
             var testValues = new TestValues();
 
-            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>()))
-                .Throws(new NotFoundException(typeof(EmployeeSecurityEntity), 1));
+            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>())).Throws(new NotFoundException(typeof(EmployeeSecurityEntity), 1));
 
             var result = await testValues.GetUseCase(LogFactory).ExecuteAsync(
                 new RequestPermissionUseCaseParams() { EmployeeId = 1, PermissionTypeId = 1 }
@@ -77,9 +79,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
         public async Task ExceptionsDuringTransaction()
         {
             var testValues = new TestValues();
-
-            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>()))
-                .Throws(new Exception());
+            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>())).Throws(new Exception());
 
             var result = await testValues.GetUseCase(LogFactory).ExecuteAsync(
                 new RequestPermissionUseCaseParams() { EmployeeId = 1, PermissionTypeId = 1 }
@@ -101,14 +101,39 @@ namespace LdelossantosN5.Domain.Impl.Tests.UsesCases
                     new() { Id = 1, PermissionType = permissionType }
                 }
             };
-            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>()))
-                .ReturnsAsync(newEmployee);
-            testValues.moqPermissionTypeRepository.Setup(repo => repo.FindAsync(It.IsAny<int>()))
-                .ReturnsAsync(permissionType);
+
+            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>())).ReturnsAsync(newEmployee);
+            testValues.moqPermissionTypeRepository.Setup(repo => repo.FindAsync(It.IsAny<int>())).ReturnsAsync(permissionType);
             var result = await testValues.GetUseCase(LogFactory).ExecuteAsync(
                 new RequestPermissionUseCaseParams() { EmployeeId = 1, PermissionTypeId = 1 }
             );
             Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async Task OnSuccessPublishTheMessage()
+        {
+            var testValues = new TestValues();
+            var permissionType = new PermissionTypeEntity() { Id = 1 };
+            var newEmployee = new EmployeeSecurityEntity()
+            {
+                Id = 1,
+                Name = "Jhon",
+                Permissions = new List<EmployeePermissionEntity>()
+            };
+
+            testValues.moqEmployeeSecurityRepo.Setup(repo => repo.FindAsync(It.IsAny<int>())).ReturnsAsync(newEmployee);
+            testValues.moqPermissionTypeRepository.Setup(repo => repo.FindAsync(It.IsAny<int>())).ReturnsAsync(permissionType);
+
+            testValues.moqMediator.Setup(mediator => mediator.Publish(It.IsAny<PermissionRequestNotification>()))
+                .Callback<PermissionRequestNotification>((perms) =>
+                {
+                    Assert.Equal(1, perms.EmployeeId);
+                    Assert.Equal(1, perms.PermissionTypeId);
+                });
+
+            var result = await testValues.GetUseCase(LogFactory).ExecuteAsync(new RequestPermissionUseCaseParams() { EmployeeId = 1, PermissionTypeId = 1 });
+            Assert.True(result.Success);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace LdelossantosN5.Domain.Tests.TopicsNotification
         [Fact]
         public async Task DeliverMessageOk()
         {
-            await this.KafkaFixture.Producer.DeliverMessage(TopicMessage.request);
+            await this.KafkaFixture.Producer.DeliverMessageAsync(TopicMessage.request);
             Assert.True(true);
         }
     }

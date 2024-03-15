@@ -1,18 +1,19 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
+using LdelossantosN5.Domain.Impl.Indexes;
 using LdelossantosN5.Domain.Indexes;
 
-namespace LdelossantosN5.Domain.Indexes
+namespace LdelossantosN5.Domain.Impl.Indexes
 {
     public class EmployeePermissionIndex
         : IEmployeePermissionIndex
     {
         public const string K_IndexName = "employeeindex";
         private readonly ElasticsearchClient Client;
-        public EmployeePermissionIndex(string serverUri = "https://localhost:9200")
+        public EmployeePermissionIndex(ElasticIndexSettings serverSettings)
         {
             //var certificate = new X509Certificate2(@"Indexes/elasticcertificate.crt");
-            var settings = new ElasticsearchClientSettings(new Uri(serverUri))
+            var settings = new ElasticsearchClientSettings(new Uri(serverSettings.ServerName))
                 .Authentication(new BasicAuthentication("elastic", "AJ+h-rwFBJpOdGw5G3MD"))
                 .ServerCertificateValidationCallback((a, b, c, d) => true);
             //.ClientCertificate(certificate);

@@ -12,7 +12,9 @@ builder.Services.AddSwaggerGen();
 DatabaseConfiguration.Configure(builder);
 SerilogConfiguration.Configure(builder);
 JsonSerializationConfiguration.Configure(builder);
-
+KafkaConfiguration.Configure(builder);
+ElasticConfiguration.Configure(builder);
+MediatRConfiguration.Configure(builder);
 ConfigureDomainServicesDI.Configure(builder);
 
 var app = builder.Build();
@@ -25,20 +27,27 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 SerilogConfiguration.ConfigureMiddleware(app);
 
+using (var scope = app.Services.CreateScope())
+{ 
+    await KafkaConfiguration.Initialize(scope.ServiceProvider);
+    await ElasticConfiguration.Initialize(scope.ServiceProvider);
+    await DatabaseConfiguration.Initialize(scope.ServiceProvider);
+}
 ConfigureEndpoints(app);
 
 app.Run();
 
 static void ConfigureEndpoints(WebApplication app)
 {
-    app.MapGet("/employeesecurity/{employeeId}", (int employeeId) =>
+    app.MapGet("/employeesecurity/{employeeId}", async (int employeeId, IGetPermissionsUseCase useCase) =>
     {
-        return new EmployeeSecurityModel() { Id = employeeId };
+        var request = new GetPermissionsModel() { EmployeeId = employeeId };
+        var result = await useCase.ExecuteAsync(request);
+        return result.ToHttpResponse();
     })
-    .WithName("GetEmployeeSecurity")
+    .WithName("Get Employee Permissions")
     .WithOpenApi();
 
     app.MapPost("/employeesecurity/{employeeId}/permissions", async (int employeeId, RequestPermissionModel theModel, IRequestPermissionUseCase useCase) =>

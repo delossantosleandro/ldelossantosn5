@@ -1,4 +1,6 @@
-﻿using LdelossantosN5.Domain.TopicsNotification;
+﻿using Elastic.Clients.Elasticsearch;
+using LdelossantosN5.Domain.Impl.TopicsNotification;
+using LdelossantosN5.Domain.TopicsNotification;
 using Microsoft.Extensions.Logging;
 
 namespace LdelossantosN5.Domain.Tests
@@ -12,7 +14,7 @@ namespace LdelossantosN5.Domain.Tests
         public async Task InitializeAsync()
         {
             this.LogFactory = LoggerFactory.Create(builder => builder.AddDebug());
-            this.KafkaProducer = new KafkaMessageProducer(this.LogFactory.CreateLogger<KafkaMessageProducer>());
+            this.KafkaProducer = new KafkaMessageProducer(this.LogFactory.CreateLogger<KafkaMessageProducer>(), new KafkaSettings());
             await this.KafkaProducer.EnsureTopicIsCreatedAsync();
         }
         public async Task DisposeAsync()
