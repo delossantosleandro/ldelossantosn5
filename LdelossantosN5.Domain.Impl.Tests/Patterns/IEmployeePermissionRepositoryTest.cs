@@ -10,14 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
+namespace LdelossantosN5.Domain.Impl.Tests.Patterns
 {
     public class IEmployeePermissionRepositoryTest
         : IClassFixture<SqlLocalDbFixture>
     {
         public IEmployeePermissionRepositoryTest(SqlLocalDbFixture fixture)
         {
-            this.DbFixture = fixture;
+            DbFixture = fixture;
         }
 
         public SqlLocalDbFixture DbFixture { get; }
@@ -26,14 +26,14 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
         [Fact]
         public void RepositoryIsImplemented()
         {
-            using var ctx = this.DbFixture.CreateContext();
+            using var ctx = DbFixture.CreateContext();
             Assert.IsAssignableFrom<IEmployeePermissionRepository>(ctx);
         }
         [Fact]
         public async Task RepositoryDontAcceptRequestPermission()
         {
-            using var ctx = this.DbFixture.CreateContext();
-            await Assert.ThrowsAsync<ArgumentException>(() => 
+            using var ctx = DbFixture.CreateContext();
+            await Assert.ThrowsAsync<ArgumentException>(() =>
                 (ctx as IEmployeePermissionRepository)
                 .UpdateEmployeePermissionAsync(1, 2, PermissionStatus.permissionRequested)
             );
@@ -44,7 +44,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
         {
             int employeeId;
             int permissionId;
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var dbTrans = await ctx.Database.BeginTransactionAsync();
                 var newEmployee = CreateNewEmployee(ctx);
@@ -53,17 +53,17 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
                 employeeId = newEmployee.Id;
                 permissionId = newEmployee.Permissions.First().Id;
             }
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var dbTrans = await ctx.Database.BeginTransactionAsync();
-                var res = await (ctx as IEmployeePermissionRepository).UpdateEmployeePermissionAsync(permissionId, employeeId, Models.PermissionStatus.permissionDenied);
+                var res = await (ctx as IEmployeePermissionRepository).UpdateEmployeePermissionAsync(permissionId, employeeId, PermissionStatus.permissionDenied);
                 await dbTrans.CommitAsync();
                 //When records are removed, we receive a negative value
                 Assert.True(res < 0);
             }
 
             //Check the record it's not there
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var employee = await ctx.EmployeeSecuritySet.FindAsync(employeeId);
                 Assert.NotNull(employee);
@@ -77,7 +77,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
             int employeeId;
             int permissionId;
             int permissionType;
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var dbTrans = await ctx.Database.BeginTransactionAsync();
                 var newEmployee = CreateNewEmployee(ctx);
@@ -88,17 +88,17 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
                 permissionType = newEmployee.Permissions.First().PermissionType!.Id;
             }
 
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var dbTrans = await ctx.Database.BeginTransactionAsync();
-                var res = await (ctx as IEmployeePermissionRepository).UpdateEmployeePermissionAsync(permissionId, employeeId, Models.PermissionStatus.permissionGranted);
+                var res = await (ctx as IEmployeePermissionRepository).UpdateEmployeePermissionAsync(permissionId, employeeId, PermissionStatus.permissionGranted);
                 await dbTrans.CommitAsync();
                 //When records are removed, we receive a negative value
                 Assert.Equal(permissionType, res);
             }
 
             //Check the record it's not there
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var employee = await ctx.EmployeeSecuritySet.FindAsync(employeeId);
                 Assert.NotNull(employee);
@@ -112,7 +112,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
             int employeeId;
             int permissionId;
             int permissionType;
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var dbTrans = await ctx.Database.BeginTransactionAsync();
                 var newEmployee = CreateNewEmployee(ctx);
@@ -122,7 +122,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
                 permissionId = newEmployee.Permissions.First().Id;
                 permissionType = newEmployee.Permissions.First().PermissionType!.Id;
             }
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 await Assert.ThrowsAsync<NotFoundException>(() =>
                     (ctx as IEmployeePermissionRepository)
@@ -136,7 +136,7 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
             int employeeId;
             int permissionId;
             int permissionType;
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 var dbTrans = await ctx.Database.BeginTransactionAsync();
                 var newEmployee = CreateNewEmployee(ctx);
@@ -147,11 +147,11 @@ namespace LdelossantosN5.Domain.Impl.Tests.NotificationHandlers
                 permissionType = newEmployee.Permissions.First().PermissionType!.Id;
             }
 
-            using (var ctx = this.DbFixture.CreateContext())
+            using (var ctx = DbFixture.CreateContext())
             {
                 await Assert.ThrowsAsync<NotFoundException>(() =>
                     (ctx as IEmployeePermissionRepository)
-                    .UpdateEmployeePermissionAsync(permissionId+1, employeeId, PermissionStatus.permissionGranted)
+                    .UpdateEmployeePermissionAsync(permissionId + 1, employeeId, PermissionStatus.permissionGranted)
                 );
             }
         }

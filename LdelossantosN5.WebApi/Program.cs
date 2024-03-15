@@ -30,12 +30,15 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 SerilogConfiguration.ConfigureMiddleware(app);
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
-    await KafkaConfiguration.Initialize(scope.ServiceProvider);
-    await ElasticConfiguration.Initialize(scope.ServiceProvider);
-    await DatabaseConfiguration.Initialize(scope.ServiceProvider);
-    await DatabaseConfiguration.InitializeCQRS(scope.ServiceProvider);
+    using (var scope = app.Services.CreateScope())
+    {
+        await KafkaConfiguration.Initialize(scope.ServiceProvider);
+        await ElasticConfiguration.Initialize(scope.ServiceProvider);
+        await DatabaseConfiguration.Initialize(scope.ServiceProvider);
+        await DatabaseConfiguration.InitializeCQRS(scope.ServiceProvider);
+    }
 }
 ConfigureEndpoints(app);
 
